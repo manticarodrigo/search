@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
-import { z } from "zod"
+
+import { fetchNews } from "@/lib/bing"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,55 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
-const NewsArticleSchema = z.object({
-  _type: z.literal("NewsArticle"),
-  name: z.string(),
-  url: z.string().url(),
-  image: z
-    .object({
-      _type: z.literal("ImageObject"),
-      thumbnail: z.object({
-        _type: z.literal("ImageObject"),
-        contentUrl: z.string().url(),
-        width: z.number(),
-        height: z.number(),
-      }),
-      isLicensed: z.boolean(),
-    })
-    .optional(),
-  description: z.string(),
-  provider: z.array(
-    z.object({
-      _type: z.literal("Organization"),
-      name: z.string(),
-      image: z.object({
-        _type: z.literal("ImageObject"),
-        thumbnail: z.object({
-          _type: z.literal("ImageObject"),
-          contentUrl: z.string().url(),
-        }),
-      }),
-    })
-  ),
-  datePublished: z.string().pipe(z.coerce.date()),
-})
+import { Highlighter } from "@/components/ui/highlighter"
 
 export default async function Home() {
-  const url =
-    "https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw"
-  const options = {
-    method: "GET",
-    headers: {
-      "X-BingApis-SDK": "true",
-      "X-RapidAPI-Key": process.env.RAPIDAPI_API_KEY ?? "",
-      "X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com",
-    },
-  }
-
-  const response = await fetch(url, options)
-  const result = await response.text()
-  const articles = NewsArticleSchema.array().parse(JSON.parse(result).value)
+  const articles = await fetchNews()
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
@@ -83,7 +39,9 @@ export default async function Home() {
                     <div className="h-32 w-full bg-gray-200" />
                   )}
                 </div>
-                <CardTitle>{article.name}</CardTitle>
+                <CardTitle>
+                  <Highlighter>{article.name}</Highlighter>
+                </CardTitle>
                 <CardDescription>
                   {article.provider.map((provider) => provider.name).join(", ")}{" "}
                   -{" "}
@@ -91,7 +49,7 @@ export default async function Home() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="h-full min-h-0">
-                {article.description}
+                <Highlighter>{article.description}</Highlighter>
               </CardContent>
               <CardFooter>
                 <Button asChild variant="link" className="ml-auto">
