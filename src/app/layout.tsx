@@ -15,7 +15,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  console.log("layout")
   return (
     <html lang="en" className="h-full w-full">
       <body className={`${inter.className} h-full w-full overflow-auto`}>
