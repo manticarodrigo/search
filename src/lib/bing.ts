@@ -1,5 +1,29 @@
 import { z } from "zod"
 
+const TopicSchema = z.object({
+  _type: z.literal("News/Topic"),
+  webSearchUrl: z.string().url(),
+  name: z.string(),
+  image: z
+    .object({
+      _type: z.literal("ImageObject"),
+      url: z.string().url(),
+      provider: z.array(
+        z.object({
+          _type: z.literal("Organization"),
+          name: z.string(),
+        })
+      ),
+    })
+    .optional(),
+  isBreakingNews: z.boolean(),
+  query: z.object({
+    _type: z.literal("Query"),
+    text: z.string(),
+  }),
+  newsSearchUrl: z.string().url(),
+})
+
 const NewsArticleSchema = z.object({
   _type: z.literal("NewsArticle"),
   name: z.string(),
@@ -20,31 +44,29 @@ const NewsArticleSchema = z.object({
     z.object({
       _type: z.literal("Organization"),
       name: z.string(),
-      image: z.object({
-        _type: z.literal("ImageObject"),
-        thumbnail: z.object({
+      image: z
+        .object({
           _type: z.literal("ImageObject"),
-          contentUrl: z.string().url(),
-        }),
-      }).optional(),
+          thumbnail: z.object({
+            _type: z.literal("ImageObject"),
+            contentUrl: z.string().url(),
+          }),
+        })
+        .optional(),
     })
   ),
   datePublished: z.string().pipe(z.coerce.date()),
 })
 
-const baseUrl = "https://bing-news-search1.p.rapidapi.com/news/search"
+const baseUrl = "https://bing-news-search1.p.rapidapi.com/news"
 
-const params = new URLSearchParams({
-  q: "Flint water crisis",
+const params = {
   count: "100",
-  freshness: "Month",
   mkt: "en-US",
   setLang: "EN",
   textFormat: "Raw",
   textDecorations: "True",
-})
-
-const url = `${baseUrl}?${params}`
+}
 
 const options = {
   method: "GET",
@@ -55,9 +77,23 @@ const options = {
   },
 }
 
-export async function fetchNews() {
+export async function fetchTopics() {
+  const url = `${baseUrl}/trendingtopics?${new URLSearchParams({
+    ...params,
+    since: `${Date.now() - 1000 * 60 * 60 * 24}`,
+  })}`
   const response = await fetch(url, options)
   const result = await response.text()
-  console.log(result)
+  return TopicSchema.array().parse(JSON.parse(result).value)
+}
+
+export async function fetchNews() {
+  const url = `${baseUrl}/search?${new URLSearchParams({
+    ...params,
+    q: "Flint water crisis",
+    freshness: "Month",
+  })}`
+  const response = await fetch(url, options)
+  const result = await response.text()
   return NewsArticleSchema.array().parse(JSON.parse(result).value)
 }
