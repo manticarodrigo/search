@@ -39,7 +39,7 @@ const Highlighter = ({ children: text }: { children: string }) => {
     <>
       {parts.map((part, index) =>
         part.isHighlighted ? (
-          <span key={index} style={{ backgroundColor: "yellow" }}>
+          <span key={index} className="bg-yellow-200 dark:bg-yellow-800">
             {part.text}
           </span>
         ) : (

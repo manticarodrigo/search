@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Highlighter } from "@/components/ui/highlighter"
+import { Header } from "@/components/nav/header"
 
 export default async function Home() {
   const topics = await fetchTopics()
@@ -20,14 +21,14 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center">
-      <header className="w-full border-b p-2">
-        <h1 className="text-lg font-light">Synopsis</h1>
-      </header>
+      <Header />
       <section className="container space-y-4 py-6">
         <h2 className="text-xl font-light">Topics</h2>
         <ul className="flex flex-wrap gap-2">
           {topics.map((topic, idx) => (
-            <Badge variant="secondary" key={`${topic.name}-${idx}`}>{topic.name}</Badge>
+            <Badge variant="secondary" key={`${topic.name}-${idx}`}>
+              {topic.name}
+            </Badge>
           ))}
         </ul>
         <h2 className="text-xl font-light">News</h2>
