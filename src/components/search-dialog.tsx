@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import { useEffect, useRef } from "react"
 import { Search } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -13,9 +13,9 @@ type Props = {
 }
 
 export function SearchDialog({ query }: Props) {
-  const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()

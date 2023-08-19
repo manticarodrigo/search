@@ -5,7 +5,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
-import { ProgressBar } from "@/components/ui/progress"
+import { ProgressBar } from "@/components/progress-bar"
 import { Providers } from "@/components/providers"
 
 const inter = Inter({ subsets: ["latin"] })

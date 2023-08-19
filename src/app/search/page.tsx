@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 
-import { fetchEntities, fetchNews } from "@/lib/bing"
+import { fetchEntities, fetchNews, fetchSearch } from "@/lib/bing"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,9 +23,10 @@ type Props = {
 }
 
 export default async function SearchPage({ searchParams }: Props) {
-  const [entities, articles] = await Promise.all([
+  const [entities, articles, search] = await Promise.all([
     fetchEntities(searchParams.query ?? ""),
     fetchNews(searchParams.query ?? ""),
+    fetchSearch(searchParams.query ?? ""),
   ])
 
   return (
@@ -105,6 +106,42 @@ export default async function SearchPage({ searchParams }: Props) {
                     {new Date(article.datePublished).toLocaleDateString(
                       "en-US"
                     )}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="h-full min-h-0">
+                  <Highlighter>{article.description}</Highlighter>
+                </CardContent>
+                <CardFooter>
+                  <Button asChild variant="link" className="ml-auto">
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center"
+                    >
+                      Read more
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {search.value.length > 0 && (
+        <section className="container space-y-4 py-6">
+          <h2 className="text-2xl font-bold">Web</h2>
+          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            {search.value.map((article) => (
+              <Card key={article.url} className="flex flex-col">
+                <CardHeader>
+                  <CardTitle>
+                    <Highlighter>{article.name}</Highlighter>
+                  </CardTitle>
+                  <CardDescription>
+                    {article.about?.map((about) => about.name).join(", ")} -{" "}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="h-full min-h-0">

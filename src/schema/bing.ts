@@ -135,7 +135,7 @@ export const EntitiesResponseSchema = z.object({
           ),
           webSearchUrl: z.string().url(),
           name: z.string(),
-          url: z.string().url(),
+          url: z.string().url().optional(),
           image: z
             .object({
               _type: z.literal("ImageObject"),
@@ -185,4 +185,77 @@ export const EntitiesResponseSchema = z.object({
       })
       .optional(),
   }),
+})
+
+export const SearchResponseSchema = z.object({
+  _type: z.literal("News"),
+  readLink: z.string().url(),
+  queryContext: z.object({
+    _type: z.literal("QueryContext"),
+    originalQuery: z.string(),
+    adultIntent: z.boolean(),
+  }),
+  totalEstimatedMatches: z.number(),
+  sort: z.array(
+    z.object({
+      _type: z.literal("SortValue"),
+      name: z.string(),
+      id: z.string(),
+      isSelected: z.boolean(),
+      url: z.string().url(),
+    })
+  ),
+  value: z.array(
+    z.object({
+      _type: z.literal("NewsArticle"),
+      name: z.string(),
+      url: z.string().url(),
+      image: z
+        .object({
+          _type: z.literal("ImageObject"),
+          thumbnail: z.object({
+            _type: z.literal("ImageObject"),
+            contentUrl: z.string().url(),
+            width: z.number(),
+            height: z.number(),
+          }),
+        })
+        .optional(),
+      description: z.string(),
+      about: z
+        .array(
+          z.object({
+            _type: z.literal("Thing"),
+            readLink: z.string().url(),
+            name: z.string(),
+          })
+        )
+        .optional(),
+      mentions: z
+        .array(
+          z.object({
+            _type: z.literal("Thing"),
+            name: z.string(),
+          })
+        )
+        .optional(),
+      provider: z.array(
+        z.object({
+          _type: z.literal("Organization"),
+          name: z.string(),
+          image: z
+            .object({
+              _type: z.literal("ImageObject"),
+              thumbnail: z.object({
+                _type: z.literal("ImageObject"),
+                contentUrl: z.string().url(),
+              }),
+            })
+            .optional(),
+        })
+      ),
+      datePublished: z.string().pipe(z.coerce.date()),
+      category: z.string().optional(),
+    })
+  ),
 })

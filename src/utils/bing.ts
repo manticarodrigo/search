@@ -1,22 +1,25 @@
 const BingRequest = {
-  NEWS: "NEWS",
-  TOPICS: "TOPICS",
-  AUTOSUGGEST: "AUTOSUGGEST",
   ENTITIES: "ENTITIES",
+  NEWS: "NEWS",
+  SEARCH: "SEARCH",
+  AUTOSUGGEST: "AUTOSUGGEST",
+  TOPICS: "TOPICS",
 } as const
 
 const BingUrl = {
-  NEWS: "https://bing-news-search1.p.rapidapi.com/news/search",
-  TOPICS: "https://bing-news-search1.p.rapidapi.com/news/trendingtopics",
-  AUTOSUGGEST: "https://bing-autosuggest1.p.rapidapi.com/suggestions",
   ENTITIES: "https://bing-entity-search.p.rapidapi.com/entities",
+  NEWS: "https://bing-news-search1.p.rapidapi.com/news/search",
+  SEARCH: "https://bing-web-search1.p.rapidapi.com/search",
+  AUTOSUGGEST: "https://bing-autosuggest1.p.rapidapi.com/suggestions",
+  TOPICS: "https://bing-news-search1.p.rapidapi.com/news/trendingtopics",
 }
 
 const BingHost = {
-  NEWS: "bing-news-search1.p.rapidapi.com",
-  TOPICS: "bing-news-search1.p.rapidapi.com",
-  AUTOSUGGEST: "bing-autosuggest1.p.rapidapi.com",
   ENTITIES: "bing-entity-search.p.rapidapi.com",
+  NEWS: "bing-news-search1.p.rapidapi.com",
+  SEARCH: "bing-web-search1.p.rapidapi.com",
+  AUTOSUGGEST: "bing-autosuggest1.p.rapidapi.com",
+  TOPICS: "bing-news-search1.p.rapidapi.com",
 }
 
 type ObjectValues<T> = T[keyof T]
