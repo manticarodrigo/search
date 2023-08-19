@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
-    <html lang="en" className="h-full w-full">
+    <html lang="en" className="h-full w-full" suppressHydrationWarning>
       <body className={`${inter.className} h-full w-full overflow-auto`}>
         <Providers>{children}</Providers>
       </body>

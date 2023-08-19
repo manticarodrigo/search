@@ -1,80 +1,32 @@
-import Image from "next/image"
-import { ArrowRight } from "lucide-react"
+import Balancer from "react-wrap-balancer"
 
-import { fetchNews, fetchTopics } from "@/lib/bing"
+import { fetchTopics } from "@/lib/bing"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Highlighter } from "@/components/ui/highlighter"
 import { Header } from "@/components/nav/header"
+import { Search } from "@/components/search"
 
 export default async function Home() {
   const topics = await fetchTopics()
-  const articles = await fetchNews()
 
   return (
-    <main className="flex min-h-full flex-col items-center justify-center">
+    <main className="flex min-h-full flex-col">
       <Header />
-      <section className="container space-y-4 py-6">
-        <h2 className="text-xl font-light">Topics</h2>
-        <ul className="flex flex-wrap gap-2">
+      <section className="container flex flex-col items-center justify-center gap-8 px-4 py-8 md:pt-12">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]">
+            Get smart on any topic.
+          </h1>
+          <Balancer className="max-w-2xl text-center text-lg text-muted-foreground sm:text-xl">
+            Synopsis is an AI-powered news and search aggregator that allows you
+            to intelligently investigate any topic.
+          </Balancer>
+        </div>
+        <Search />
+        <ul className="flex flex-wrap justify-center gap-2 px-4">
           {topics.map((topic, idx) => (
             <Badge variant="secondary" key={`${topic.name}-${idx}`}>
               {topic.name}
             </Badge>
-          ))}
-        </ul>
-        <h2 className="text-xl font-light">News</h2>
-        <ul className="grid grid-cols-4 gap-4">
-          {articles.map((article) => (
-            <Card key={article.url} className="flex flex-col">
-              <CardHeader>
-                <div className="pb-4">
-                  {article.image ? (
-                    <Image
-                      src={article.image.thumbnail.contentUrl}
-                      alt={article.name}
-                      width={article.image.thumbnail.width}
-                      height={article.image.thumbnail.height}
-                      className="h-32 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-32 w-full bg-gray-200" />
-                  )}
-                </div>
-                <CardTitle>
-                  <Highlighter>{article.name}</Highlighter>
-                </CardTitle>
-                <CardDescription>
-                  {article.provider.map((provider) => provider.name).join(", ")}{" "}
-                  -{" "}
-                  {new Date(article.datePublished).toLocaleDateString("en-US")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="h-full min-h-0">
-                <Highlighter>{article.description}</Highlighter>
-              </CardContent>
-              <CardFooter>
-                <Button asChild variant="link" className="ml-auto">
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    Read more
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-              </CardFooter>
-            </Card>
           ))}
         </ul>
       </section>
