@@ -2,18 +2,21 @@ const BingRequest = {
   NEWS: "NEWS",
   TOPICS: "TOPICS",
   AUTOSUGGEST: "AUTOSUGGEST",
+  ENTITIES: "ENTITIES",
 } as const
 
 const BingUrl = {
   NEWS: "https://bing-news-search1.p.rapidapi.com/news/search",
   TOPICS: "https://bing-news-search1.p.rapidapi.com/news/trendingtopics",
   AUTOSUGGEST: "https://bing-autosuggest1.p.rapidapi.com/suggestions",
+  ENTITIES: "https://bing-entity-search.p.rapidapi.com/entities",
 }
 
 const BingHost = {
   NEWS: "bing-news-search1.p.rapidapi.com",
   TOPICS: "bing-news-search1.p.rapidapi.com",
   AUTOSUGGEST: "bing-autosuggest1.p.rapidapi.com",
+  ENTITIES: "bing-entity-search.p.rapidapi.com",
 }
 
 type ObjectValues<T> = T[keyof T]
