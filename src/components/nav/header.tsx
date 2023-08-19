@@ -1,9 +1,10 @@
+import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 
 import { ModeToggle } from "./mode-toggle"
 
-export function Header() {
+export function Header({ children }: React.PropsWithChildren) {
   return (
     <header className="w-full border-b">
       <div className="container flex w-full items-center justify-between p-2">
@@ -17,6 +18,7 @@ export function Header() {
           />
           <span className="font-mono font-bold lowercase">Synopsis</span>
         </Link>
+        {children}
         <ModeToggle />
       </div>
     </header>

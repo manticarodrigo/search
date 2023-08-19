@@ -27,12 +27,17 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
-export function Search() {
+type Props = {
+  initialQuery?: string
+  onSubmit?: (values: FormValues) => void
+}
+
+export function SearchForm(props: Props) {
   const router = useRouter()
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      query: "",
+      query: props.initialQuery ?? "",
     },
   })
 
@@ -46,6 +51,7 @@ export function Search() {
 
   function onSubmit(values: FormValues) {
     router.push(`/search?query=${values.query}`)
+    props.onSubmit?.(values)
   }
 
   return (
@@ -55,16 +61,16 @@ export function Search() {
           control={form.control}
           name="query"
           render={({ field }) => (
-            <Command className="rounded-lg border shadow-md">
+            <Command>
               <CommandInput
                 {...field}
                 placeholder="Type something to get started..."
                 onValueChange={(v) => form.setValue("query", v)}
               />
-              <CommandList>
+              <CommandList className="h-[265px]">
                 <CommandEmpty className="items-start p-0">
                   {isPending ? (
-                    <div className="flex h-[300px] flex-col gap-2 p-2">
+                    <div className="flex flex-col gap-2 p-2">
                       <Skeleton className="h-4 w-32" />
                       <Skeleton className="h-4 w-48" />
                     </div>

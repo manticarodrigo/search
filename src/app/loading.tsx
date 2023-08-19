@@ -1,7 +1,7 @@
 import { Balancer } from "react-wrap-balancer"
 
 import { Header } from "@/components/nav/header"
-import { Search } from "@/components/search"
+import { SearchForm } from "@/components/search"
 
 export default function RootLoader() {
   return (
@@ -17,8 +17,8 @@ export default function RootLoader() {
             to intelligently investigate any topic.
           </Balancer>
         </div>
-        <div className="w-full max-w-2xl">
-          <Search />
+        <div className="w-full max-w-2xl rounded-lg border shadow-md">
+          <SearchForm />
         </div>
       </section>
     </main>
