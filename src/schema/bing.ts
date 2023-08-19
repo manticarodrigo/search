@@ -175,11 +175,13 @@ export const EntitiesResponseSchema = z.object({
           z.object({
             _type: z.literal("Ranking/RankingItem"),
             answerType: z.string(),
-            resultIndex: z.number(),
-            value: z.object({
-              _type: z.literal("Identifiable"),
-              id: z.string().url(),
-            }),
+            resultIndex: z.number().optional(),
+            value: z
+              .object({
+                _type: z.literal("Identifiable"),
+                id: z.string().url(),
+              })
+              .optional(),
           })
         ),
       })

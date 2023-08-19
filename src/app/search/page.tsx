@@ -55,16 +55,18 @@ export default async function SearchPage({ searchParams }: Props) {
                   </CardTitle>
                   <CardDescription>
                     {entity.entityPresentationInfo.entityTypeDisplayHint}
-                    {entity.entityPresentationInfo.entityTypeHints && (
-                      <ul className="flex flex-wrap gap-2">
-                        {entity.entityPresentationInfo.entityTypeHints.map(
-                          (subtype) => (
-                            <Badge key={subtype}>{subtype}</Badge>
-                          )
-                        )}
-                      </ul>
-                    )}
                   </CardDescription>
+                  {entity.entityPresentationInfo.entityTypeHints && (
+                    <ul className="flex flex-wrap gap-2">
+                      {entity.entityPresentationInfo.entityTypeHints.map(
+                        (subtype) => (
+                          <li key={subtype}>
+                            <Badge>{subtype}</Badge>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
                 </CardHeader>
                 <CardContent className="h-full min-h-0">
                   <Highlighter>{entity.description}</Highlighter>
