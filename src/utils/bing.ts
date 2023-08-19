@@ -44,6 +44,5 @@ export async function fetchBing(
     },
   })
   const result = await response.text()
-  console.log(result)
   return JSON.parse(result)
 }

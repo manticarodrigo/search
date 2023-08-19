@@ -1,13 +1,9 @@
-import Balancer from "react-wrap-balancer"
+import { Balancer } from "react-wrap-balancer"
 
-import { fetchTopics } from "@/lib/bing"
-import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/nav/header"
 import { Search } from "@/components/search"
 
-export default async function RootPage() {
-  const topics = await fetchTopics()
-
+export default function RootLoader() {
   return (
     <main className="flex min-h-full flex-col">
       <Header />
@@ -24,13 +20,6 @@ export default async function RootPage() {
         <div className="w-full max-w-2xl">
           <Search />
         </div>
-        <ul className="flex flex-wrap justify-center gap-2 px-4">
-          {topics.map((topic, idx) => (
-            <Badge variant="secondary" key={`${topic.name}-${idx}`}>
-              {topic.name}
-            </Badge>
-          ))}
-        </ul>
       </section>
     </main>
   )

@@ -17,10 +17,11 @@ export async function fetchSuggestions(q: string) {
   return SuggestionGroupSchema.array().parse(result.suggestionGroups)
 }
 
-export async function fetchNews() {
+export async function fetchNews(q: string) {
   const result = await fetchBing("NEWS", {
-    q: "Flint water crisis",
+    q,
     freshness: "Month",
+    textDecorations: "True",
   })
   return NewsArticleSchema.array().parse(result.value)
 }

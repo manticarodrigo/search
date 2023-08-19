@@ -13,14 +13,20 @@ import {
 import { Highlighter } from "@/components/ui/highlighter"
 import { Header } from "@/components/nav/header"
 
-export default async function Home() {
-  const articles = await fetchNews()
+type Props = {
+  searchParams: {
+    query?: string
+  }
+}
+
+export default async function SearchPage({ searchParams }: Props) {
+  const articles = await fetchNews(searchParams.query ?? "")
 
   return (
-    <main className="flex min-h-full flex-col items-center justify-center">
+    <main className="flex min-h-full flex-col">
       <Header />
       <section className="container space-y-4 py-6">
-        <ul className="grid grid-cols-4 gap-4">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {articles.map((article) => (
             <Card key={article.url} className="flex flex-col">
               <CardHeader>
