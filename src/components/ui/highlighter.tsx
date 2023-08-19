@@ -5,7 +5,7 @@ const Highlighter = ({ children: text }: { children: string }) => {
 
   // Create a function to break the string into parts.
   const getHighlightedParts = (str: string) => {
-    let parts = []
+    const parts = []
     let currentIndex = 0
     while (currentIndex < str.length) {
       const startIndex = str.indexOf(startMarker, currentIndex)

@@ -20,6 +20,7 @@ export async function fetchSuggestions(q: string) {
 export async function fetchNews(q: string) {
   const result = await fetchBing("NEWS", {
     q,
+    count: "100",
     freshness: "Month",
     textDecorations: "True",
   })
