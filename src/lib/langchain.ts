@@ -60,7 +60,6 @@ export async function summarizeResults(
   const llm = new ChatOpenAI({
     modelName: "gpt-3.5-turbo-16k",
     temperature: 0,
-    streaming: true,
   })
 
   const chain = createStructuredOutputChainFromZod(SummarizeResponseSchema, {
@@ -68,30 +67,35 @@ export async function summarizeResults(
     llm,
   })
 
-  const result = await chain.call({
-    query,
-    entities: JSON.stringify(
-      entities.entities?.value.map((e) => ({
-        name: e.name,
-        description: e.description,
-        url: e.url,
-      }))
-    ),
-    news: JSON.stringify(
-      news.value.map((a) => ({
-        name: a.name,
-        description: a.description,
-        url: a.url,
-      }))
-    ),
-    search: JSON.stringify(
-      search.webPages.value.map((s) => ({
-        name: s.name,
-        description: s.snippet,
-        url: s.url,
-      }))
-    ),
-  })
+  const result = await chain
+    .call({
+      query,
+      entities: JSON.stringify(
+        entities.entities?.value.map((e) => ({
+          name: e.name,
+          description: e.description,
+          url: e.url,
+        }))
+      ),
+      news: JSON.stringify(
+        news.value.map((a) => ({
+          name: a.name,
+          description: a.description,
+          url: a.url,
+        }))
+      ),
+      search: JSON.stringify(
+        search.webPages.value.map((s) => ({
+          name: s.name,
+          description: s.snippet,
+          url: s.url,
+        }))
+      ),
+    })
+    .catch((e) => {
+      console.error(e.message)
+      throw "Error fetching summary."
+    })
 
   return SummarizeResponseSchema.parse(result.output)
 }
