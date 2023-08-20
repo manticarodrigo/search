@@ -30,7 +30,7 @@ export default async function SearchPage({ searchParams }: Props) {
 
       <section className="container space-y-4 py-6">
         <h2 className="text-2xl font-bold">Summary</h2>
-        {/* <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2">
           {summary.topics.map((topic, idx) => (
             <li key={`${topic.title}-${idx}`}>
               <div className="font-bold">{topic.title}</div>
@@ -54,8 +54,7 @@ export default async function SearchPage({ searchParams }: Props) {
               </ul>
             </li>
           ))}
-        </ul> */}
-        {summary}
+        </ul>
       </section>
 
       <section className="container space-y-4 py-6">

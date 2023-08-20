@@ -1,9 +1,36 @@
 import { SearchResponseSchema } from "@/schema/brave"
 import { OpenAI } from "openai"
 import { z } from "zod"
+import zodToJsonSchema from "zod-to-json-schema"
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
+})
+
+const SummarizeResponseSchema = z.object({
+  topics: z
+    .object({
+      title: z.string().describe("A title for the idea or topic."),
+      description: z
+        .string()
+        .describe("A one sentence description of the idea or topic."),
+      sources: z
+        .object({
+          name: z.string().describe("The name of the website or news article."),
+          url: z
+            .string()
+            .url()
+            .describe("The url of the website or news article."),
+        })
+        .array()
+        .describe(
+          "A list of up to 3 unique urls that are relevant to the idea or topic."
+        ),
+    })
+    .array()
+    .describe(
+      "A list of the 3 top unique ideas or topics discussed in the search results."
+    ),
 })
 
 export async function summarize(
@@ -45,14 +72,22 @@ export async function summarize(
           content: prompt,
         },
       ],
+      functions: [
+        {
+          name: "out",
+          description:
+            "This is the function that returns the result of the agent",
+          parameters: zodToJsonSchema(SummarizeResponseSchema),
+        },
+      ],
     })
     .catch((e) => {
       console.error(e.message)
-      return "Sorry, I couldn't summarize that."
+      throw "Sorry, I couldn't summarize that."
     })
 
-  if (typeof response === "object") {
-    return response.choices[0].message.content
-  }
-  return response
+  const structuredResponse = JSON.parse(
+    response.choices[0].message!.function_call!.arguments!
+  )
+  return SummarizeResponseSchema.parse(structuredResponse)
 }
