@@ -1,7 +1,8 @@
-import { SearchResponseSchema } from "@/schema/brave"
 import { OpenAI } from "openai"
 import { z } from "zod"
 import zodToJsonSchema from "zod-to-json-schema"
+
+import { SearchResponseSchema } from "@/schema/brave"
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -82,8 +83,9 @@ export async function summarize(
       throw e.message
     })
 
-  const structuredResponse = JSON.parse(
-    response.choices[0].message!.function_call!.arguments!
+  const parsed = JSON.parse(
+    response.choices[0].message.function_call?.arguments ?? "{}"
   )
-  return SummarizeResponseSchema.parse(structuredResponse)
+
+  return SummarizeResponseSchema.parse(parsed)
 }
