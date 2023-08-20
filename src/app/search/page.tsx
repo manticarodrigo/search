@@ -23,6 +23,8 @@ type Props = {
   }
 }
 
+export const runtime = "nodejs"
+
 export default async function SearchPage({ searchParams }: Props) {
   const [entities, articles, search] = await Promise.all([
     fetchEntities(searchParams.query ?? ""),
