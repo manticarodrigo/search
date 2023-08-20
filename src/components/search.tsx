@@ -78,7 +78,7 @@ export function SearchForm(props: Props) {
                     <div className="p-2">No results found.</div>
                   )}
                 </CommandEmpty>
-                {suggestions.data?.map((group, idx) => (
+                {suggestions.data?.suggestionGroups.map((group, idx) => (
                   <CommandGroup key={`${group.name}-${idx}`}>
                     {group.searchSuggestions.map((suggestion, idx) => (
                       <CommandItem

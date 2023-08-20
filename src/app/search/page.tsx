@@ -2,6 +2,7 @@ import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 
 import { fetchEntities, fetchNews, fetchSearch } from "@/lib/bing"
+import { summarizeResults } from "@/lib/langchain"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,17 +30,53 @@ export default async function SearchPage({ searchParams }: Props) {
     fetchSearch(searchParams.query ?? ""),
   ])
 
+  const summary = await summarizeResults(
+    searchParams.query ?? "",
+    entities,
+    articles,
+    search
+  )
+
   return (
     <main className="flex min-h-full flex-col">
       <Header>
         <SearchDialog query={searchParams.query} />
       </Header>
 
-      {entities.length > 0 && (
+      <section className="container space-y-4 py-6">
+        <h2 className="text-2xl font-bold">Summary</h2>
+        <ul className="flex flex-col gap-2">
+          {summary.topics.map((topic, idx) => (
+            <li key={`${topic.title}-${idx}`}>
+              <div className="font-bold">{topic.title}</div>
+              <div className="text-sm">{topic.description}</div>
+              <ul>
+                {topic.urls.map((url, idx) => (
+                  <li key={`${url.url}-${idx}`}>
+                    <Button asChild variant="link">
+                      <a
+                        href={url.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm"
+                      >
+                        <ArrowRight className="mr-2 h-4 w-4" />
+                        {url.name}
+                      </a>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {(entities.entities?.value?.length ?? 0) > 0 && (
         <section className="container space-y-4 py-6">
           <h2 className="text-2xl font-bold">Entities</h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {entities.map((entity) => (
+            {entities.entities?.value.map((entity) => (
               <Card key={entity.url} className="flex flex-col">
                 <CardHeader>
                   <CardTitle>
@@ -126,11 +163,11 @@ export default async function SearchPage({ searchParams }: Props) {
         </section>
       )}
 
-      {articles.length > 0 && (
+      {articles.value.length > 0 && (
         <section className="container space-y-4 py-6">
           <h2 className="text-2xl font-bold">News</h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {articles.map((article) => (
+            {articles.value.map((article) => (
               <Card key={article.url} className="flex flex-col">
                 <CardHeader>
                   <CardTitle>

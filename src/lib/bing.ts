@@ -11,7 +11,7 @@ export async function fetchEntities(q: string) {
   const result = await fetchBing("ENTITIES", {
     q,
   })
-  return EntitiesResponseSchema.parse(result).entities?.value ?? []
+  return EntitiesResponseSchema.parse(result)
 }
 
 export async function fetchNews(q: string) {
@@ -21,7 +21,7 @@ export async function fetchNews(q: string) {
     freshness: "Month",
     textDecorations: "True",
   })
-  return NewsArticleResponseSchema.parse(result).value
+  return NewsArticleResponseSchema.parse(result)
 }
 
 export async function fetchSearch(q: string) {
@@ -39,12 +39,12 @@ export async function fetchSuggestions(q: string) {
   const result = await fetchBing("AUTOSUGGEST", {
     q,
   })
-  return SuggestionsResponseSchema.parse(result).suggestionGroups
+  return SuggestionsResponseSchema.parse(result)
 }
 
 export async function fetchTopics() {
   const result = await fetchBing("TOPICS", {
     since: `${Date.now() - 1000 * 60 * 60 * 24}`,
   })
-  return TrendingTopicsResponseSchema.parse(result).value
+  return TrendingTopicsResponseSchema.parse(result)
 }

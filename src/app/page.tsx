@@ -25,7 +25,7 @@ export default async function RootPage() {
           <SearchForm />
         </div>
         <ul className="flex flex-wrap justify-center gap-2 px-4">
-          {topics.map((topic, idx) => (
+          {topics.value.map((topic, idx) => (
             <Badge variant="secondary" key={`${topic.name}-${idx}`}>
               {topic.name}
             </Badge>
