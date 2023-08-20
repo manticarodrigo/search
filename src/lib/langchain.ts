@@ -5,7 +5,11 @@ import {
 } from "@/schema/bing"
 import { createStructuredOutputChainFromZod } from "langchain/chains/openai_functions"
 import { ChatOpenAI } from "langchain/chat_models/openai"
-import { PromptTemplate } from "langchain/prompts"
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+  SystemMessagePromptTemplate,
+} from "langchain/prompts"
 import { z } from "zod"
 
 const SummarizeResponseSchema = z.object({
@@ -40,16 +44,18 @@ export async function summarizeResults(
   news: z.infer<typeof NewsArticleResponseSchema>,
   search: z.infer<typeof SearchResponseSchema>
 ) {
-  const prompt = new PromptTemplate({
-    inputVariables: ["query", "results"],
-    template: `
-        You are analyzing web and news search results for the query: {query}
-        Evaluate the relevance of the following search results: {results}
-
-        Notes:
+  const prompt = new ChatPromptTemplate({
+    promptMessages: [
+      SystemMessagePromptTemplate.fromTemplate(
+        `Evaluate the relevance of the provided search query and results.
+            Notes:
             - Do not include unicode characters in your response.
             - Do not include redundant information in your response.
-    `,
+        `
+      ),
+      HumanMessagePromptTemplate.fromTemplate("{request}"),
+    ],
+    inputVariables: ["request"],
   })
 
   const llm = new ChatOpenAI({
@@ -64,23 +70,25 @@ export async function summarizeResults(
 
   const result = await chain
     .call({
-      query,
-      results: JSON.stringify({
-        entities: entities.entities?.value.map((e) => ({
-          name: e.name,
-          description: e.description,
-          url: e.url,
-        })),
-        news: news.value.map((a) => ({
-          name: a.name,
-          description: a.description,
-          url: a.url,
-        })),
-        search: search.webPages.value.map((s) => ({
-          name: s.name,
-          description: s.snippet,
-          url: s.url,
-        })),
+      request: JSON.stringify({
+        query,
+        results: {
+          entities: entities.entities?.value.map((e) => ({
+            name: e.name,
+            description: e.description,
+            url: e.url,
+          })),
+          news: news.value.map((a) => ({
+            name: a.name,
+            description: a.description,
+            url: a.url,
+          })),
+          search: search.webPages.value.map((s) => ({
+            name: s.name,
+            description: s.snippet,
+            url: s.url,
+          })),
+        },
       }),
     })
     .catch((e) => {

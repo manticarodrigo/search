@@ -17,7 +17,7 @@ export async function fetchEntities(q: string) {
 export async function fetchNews(q: string) {
   const result = await fetchBing("NEWS", {
     q,
-    count: "100",
+    count: "50",
     freshness: "Month",
     textDecorations: "True",
   })
@@ -27,7 +27,7 @@ export async function fetchNews(q: string) {
 export async function fetchSearch(q: string) {
   const result = await fetchBing("SEARCH", {
     q,
-    count: "100",
+    count: "50",
     freshness: "Month",
     textDecorations: "True",
     responseFilter: "webpages",
