@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { useParams } from "next/navigation"
 import { Search } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -8,12 +9,14 @@ import { CommandShortcut } from "@/components/ui/command"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { SearchForm } from "@/components/search"
 
-type Props = {
-  query?: string
-}
-
-export function SearchDialog({ query }: Props) {
+export function SearchDialog() {
+  const params = useParams()
   const buttonRef = useRef<HTMLButtonElement>(null)
+
+  const query =
+    typeof params.query === "string"
+      ? decodeURIComponent(params.query)
+      : undefined
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {

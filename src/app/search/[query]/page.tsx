@@ -11,23 +11,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Header } from "@/components/nav/header"
-import { SearchDialog } from "@/components/search-dialog"
 
 type Props = {
-  searchParams: Record<string, string>
+  params: Record<string, string>
 }
 
-export default async function SearchPage({ searchParams }: Props) {
-  const results = await search(searchParams.query ?? "")
-  const summary = await summarize(searchParams.query ?? "", results)
+export default async function SearchPage({ params }: Props) {
+  const query = decodeURIComponent(params.query)
+  const results = await search(query ?? "")
+  const summary = await summarize(query ?? "", results)
 
   return (
-    <main className="flex min-h-full flex-col">
-      <Header>
-        <SearchDialog query={searchParams.query} />
-      </Header>
-
+    <>
       <section className="container space-y-4 py-6">
         <h2 className="text-2xl font-bold">Summary</h2>
         <ul className="flex flex-col gap-2">
@@ -116,6 +111,6 @@ export default async function SearchPage({ searchParams }: Props) {
           ))}
         </ul>
       </section>
-    </main>
+    </>
   )
 }

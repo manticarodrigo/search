@@ -24,7 +24,7 @@ type Props = {
 export function SearchForm(props: Props) {
   const router = useRouter()
 
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(props.initialQuery ?? "")
   const [term] = useDebounce(search, 500)
   const suggestions = trpc.autosuggest.suggest.useQuery(term, {
     keepPreviousData: true,
@@ -41,12 +41,13 @@ export function SearchForm(props: Props) {
 
   const onSelect = (value: string) => {
     props.onSubmit?.(value)
-    router.push(`/search?query=${value}`)
+    router.push(`/search/${value}`)
   }
 
   return (
     <Command shouldFilter={false}>
       <CommandInput
+        value={search}
         placeholder="Type something to get started..."
         onValueChange={setSearch}
       />
