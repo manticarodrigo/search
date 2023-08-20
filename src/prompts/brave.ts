@@ -1,16 +1,15 @@
 import { SearchResponseSchema } from "@/schema/brave"
-import { OpenAI } from "langchain/llms/openai"
+import { OpenAI } from "openai"
 import { z } from "zod"
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY!,
+})
 
 export async function summarize(
   query: string,
   results: z.infer<typeof SearchResponseSchema>
 ) {
-  const llm = new OpenAI({
-    modelName: "gpt-3.5-turbo-16k",
-    temperature: 0,
-  })
-
   const payload = {
     query,
     results: {
@@ -28,16 +27,32 @@ export async function summarize(
     },
   }
 
-  const input = `
-    Summarize the relevance of the provided search query and results.
-    Notes:
-    - Do not include unicode characters in your response.
-    - Do not include redundant information in your response.
-    ${JSON.stringify(payload)}
+  const prompt = `
+  Summarize the relevance of the provided search query and results.
+  Notes:
+  - Do not include unicode characters in your response.
+  - Do not include redundant information in your response.
+  ${JSON.stringify(payload)}
   `
 
-  return llm.call(input).catch((e) => {
-    console.error(e.message)
-    return "Sorry, I couldn't summarize that."
-  })
+  const response = await openai.chat.completions
+    .create({
+      model: "gpt-3.5-turbo-16k",
+      temperature: 0,
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    })
+    .catch((e) => {
+      console.error(e.message)
+      return "Sorry, I couldn't summarize that."
+    })
+
+  if (typeof response === "object") {
+    return response.choices[0].message.content
+  }
+  return response
 }
