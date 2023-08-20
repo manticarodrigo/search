@@ -24,13 +24,15 @@ export default async function RootPage() {
         <div className="w-full max-w-2xl rounded-lg border shadow-md">
           <SearchForm />
         </div>
-        <ul className="flex flex-wrap justify-center gap-2 px-4">
-          {topics.value.map((topic, idx) => (
-            <Badge variant="secondary" key={`${topic.name}-${idx}`}>
-              {topic.name}
-            </Badge>
-          ))}
-        </ul>
+        {topics.value && (
+          <ul className="flex flex-wrap justify-center gap-2 px-4">
+            {topics.value?.map((topic, idx) => (
+              <Badge variant="secondary" key={`${topic.name}-${idx}`}>
+                {topic.name}
+              </Badge>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   )

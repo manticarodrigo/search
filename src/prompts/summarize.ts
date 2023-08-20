@@ -29,7 +29,7 @@ const SummarizeResponseSchema = z.object({
     })
     .array()
     .describe(
-      "A list of the 3 top unique ideas or topics discussed in the search results."
+      "A list of the top 3 unique ideas or topics discussed in the search results."
     ),
 })
 
@@ -56,9 +56,6 @@ export async function summarize(
 
   const prompt = `
     Summarize the relevance of the provided search query and results.
-    Notes:
-    - Do not include unicode characters in your response.
-    - Do not include redundant information in your response.
     ${JSON.stringify(payload)}
   `
 
@@ -82,8 +79,7 @@ export async function summarize(
       ],
     })
     .catch((e) => {
-      console.error(e.message)
-      throw "Sorry, I couldn't summarize that."
+      throw e.message
     })
 
   const structuredResponse = JSON.parse(
