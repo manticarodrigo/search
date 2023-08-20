@@ -90,33 +90,27 @@ export default async function SearchPage({ searchParams }: Props) {
         </section>
       )}
 
-      {articles.length > 0 && (
+      {search.webPages.value.length > 0 && (
         <section className="container space-y-4 py-6">
-          <h2 className="text-2xl font-bold">News</h2>
+          <h2 className="text-2xl font-bold">Web</h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {articles.map((article) => (
-              <Card key={article.url} className="flex flex-col">
+            {search.webPages.value.map((page) => (
+              <Card key={page.url} className="flex flex-col">
                 <CardHeader>
                   <CardTitle>
-                    <Highlighter>{article.name}</Highlighter>
+                    <Highlighter>{page.name}</Highlighter>
                   </CardTitle>
                   <CardDescription>
-                    {article.provider
-                      .map((provider) => provider.name)
-                      .join(", ")}{" "}
-                    -{" "}
-                    {new Date(article.datePublished).toLocaleDateString(
-                      "en-US"
-                    )}
+                    {page.dateLastCrawled.toLocaleDateString("en-US")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="h-full min-h-0">
-                  <Highlighter>{article.description}</Highlighter>
+                  <Highlighter>{page.snippet}</Highlighter>
                 </CardContent>
                 <CardFooter>
                   <Button asChild variant="link" className="ml-auto">
                     <a
-                      href={article.url}
+                      href={page.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center"
@@ -132,18 +126,21 @@ export default async function SearchPage({ searchParams }: Props) {
         </section>
       )}
 
-      {search.value.length > 0 && (
+      {articles.length > 0 && (
         <section className="container space-y-4 py-6">
-          <h2 className="text-2xl font-bold">Web</h2>
+          <h2 className="text-2xl font-bold">News</h2>
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {search.value.map((article) => (
+            {articles.map((article) => (
               <Card key={article.url} className="flex flex-col">
                 <CardHeader>
                   <CardTitle>
                     <Highlighter>{article.name}</Highlighter>
                   </CardTitle>
                   <CardDescription>
-                    {article.about?.map((about) => about.name).join(", ")} -{" "}
+                    {article.provider
+                      .map((provider) => provider.name)
+                      .join(", ")}{" "}
+                    - {article.datePublished.toLocaleDateString("en-US")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="h-full min-h-0">

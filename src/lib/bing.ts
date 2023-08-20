@@ -30,6 +30,7 @@ export async function fetchSearch(q: string) {
     count: "100",
     freshness: "Month",
     textDecorations: "True",
+    responseFilter: "webpages",
   })
   return SearchResponseSchema.parse(result)
 }
