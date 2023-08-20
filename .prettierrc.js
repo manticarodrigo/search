@@ -13,6 +13,7 @@ module.exports = {
     "^types$",
     "^@/schema/(.*)$",
     "^@/lib/(.*)$",
+    "^@/prompts/(.*)$",
     "^@/hooks/(.*)$",
     "^@/components/ui/(.*)$",
     "^@/components/(.*)$",

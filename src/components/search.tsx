@@ -1,10 +1,8 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next-nprogress-bar"
-import { useForm } from "react-hook-form"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useDebounce } from "use-debounce"
-import * as z from "zod"
 
 import { trpc } from "@/lib/trpc"
 import {
@@ -15,89 +13,62 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
-import { Form, FormField } from "@/components/ui/form"
 
 import { Skeleton } from "./ui/skeleton"
 
-const FormSchema = z.object({
-  query: z.string({
-    required_error: "Please enter a search query to continue.",
-  }),
-})
-
-type FormValues = z.infer<typeof FormSchema>
-
 type Props = {
   initialQuery?: string
-  onSubmit?: (values: FormValues) => void
+  onSubmit?: (query: string) => void
 }
 
 export function SearchForm(props: Props) {
   const router = useRouter()
-  const form = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      query: props.initialQuery ?? "",
-    },
-  })
 
-  const query = form.watch("query")
-  const [term] = useDebounce(query, 500)
+  const [search, setSearch] = useState("")
+  const [term] = useDebounce(search, 500)
   const suggestions = trpc.autosuggest.suggest.useQuery(term, {
     keepPreviousData: true,
   })
 
-  const isPending = term !== query || suggestions.isLoading
+  const items =
+    suggestions.data?.suggestionGroups.flatMap((group) =>
+      group.searchSuggestions.map((suggestion) => suggestion.displayText)
+    ) ?? []
 
-  function onSubmit(values: FormValues) {
-    router.push(`/search?query=${values.query}`)
-    props.onSubmit?.(values)
+  const options = Array.from(new Set([search.trim(), ...items].filter(Boolean)))
+
+  const isPending = term !== search || suggestions.isLoading
+
+  const onSelect = (value: string) => {
+    props.onSubmit?.(value)
+    router.push(`/search?query=${value}`)
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <FormField
-          control={form.control}
-          name="query"
-          render={({ field }) => (
-            <Command>
-              <CommandInput
-                {...field}
-                placeholder="Type something to get started..."
-                onValueChange={(v) => form.setValue("query", v)}
-              />
-              <CommandList className="h-[265px]">
-                <CommandEmpty className="items-start p-0">
-                  {isPending ? (
-                    <div className="flex flex-col gap-2 p-2">
-                      <Skeleton className="h-4 w-32" />
-                      <Skeleton className="h-4 w-48" />
-                    </div>
-                  ) : (
-                    <div className="p-2">No results found.</div>
-                  )}
-                </CommandEmpty>
-                {suggestions.data?.suggestionGroups.map((group, idx) => (
-                  <CommandGroup key={`${group.name}-${idx}`}>
-                    {group.searchSuggestions.map((suggestion, idx) => (
-                      <CommandItem
-                        key={`${suggestion.query}-${idx}`}
-                        onSelect={(v) => {
-                          form.setValue("query", v)
-                          form.handleSubmit(onSubmit)()
-                        }}
-                      >
-                        {suggestion.displayText}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                ))}
-              </CommandList>
-            </Command>
+    <Command shouldFilter={false}>
+      <CommandInput
+        placeholder="Type something to get started..."
+        onValueChange={setSearch}
+      />
+      <CommandList className="h-[265px]">
+        <CommandEmpty className="items-start p-0">
+          {isPending ? (
+            <div className="flex flex-col gap-2 p-2">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-4 w-48" />
+            </div>
+          ) : (
+            <div className="p-2">No results found.</div>
           )}
-        />
-      </form>
-    </Form>
+        </CommandEmpty>
+        <CommandGroup>
+          {options.map((option, idx) => (
+            <CommandItem key={`${option}-${idx}`} onSelect={onSelect}>
+              {option}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </Command>
   )
 }

@@ -55,11 +55,11 @@ export async function summarize(
   }
 
   const prompt = `
-  Summarize the relevance of the provided search query and results.
-  Notes:
-  - Do not include unicode characters in your response.
-  - Do not include redundant information in your response.
-  ${JSON.stringify(payload)}
+    Summarize the relevance of the provided search query and results.
+    Notes:
+    - Do not include unicode characters in your response.
+    - Do not include redundant information in your response.
+    ${JSON.stringify(payload)}
   `
 
   const response = await openai.chat.completions

@@ -54,9 +54,11 @@ export const SearchResponseSchema = z.object({
       results: z.array(
         ResultSchema.extend({
           breaking: z.boolean(),
-          thumbnail: z.object({
-            src: z.string().url(),
-          }),
+          thumbnail: z
+            .object({
+              src: z.string().url(),
+            })
+            .optional(),
         })
       ),
       mutated_by_goggles: z.boolean(),

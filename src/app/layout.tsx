@@ -4,8 +4,8 @@ import "./globals.css"
 
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import NextTopLoader from "nextjs-toploader"
 
-import { ProgressBar } from "@/components/progress-bar"
 import { Providers } from "@/components/providers"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
     <html lang="en" className="h-full w-full" suppressHydrationWarning>
       <body className={`${inter.className} h-full w-full overflow-auto`}>
         <Providers>{children}</Providers>
-        <ProgressBar />
+        <NextTopLoader height={4} color="#eab308" showSpinner={false} />
       </body>
     </html>
   )
