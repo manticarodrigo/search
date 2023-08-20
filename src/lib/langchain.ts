@@ -16,7 +16,7 @@ const SummarizeResponseSchema = z
         description: z
           .string()
           .describe("A one sentence description of the idea or topic."),
-        urls: z
+        sources: z
           .object({
             name: z
               .string()
@@ -28,7 +28,7 @@ const SummarizeResponseSchema = z
           })
           .array()
           .describe(
-            "A list of the top 2 or 3 unique urls that are relevant to the idea or topic."
+            "A list of up to 3 unique urls that are relevant to the idea or topic."
           ),
       })
       .array()
@@ -58,7 +58,7 @@ export async function summarizeResults(
   })
 
   const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo-16k",
+    modelName: "gpt-3.5-turbo-16k-0613",
     temperature: 0,
   })
 

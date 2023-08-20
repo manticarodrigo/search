@@ -51,17 +51,17 @@ export default async function SearchPage({ searchParams }: Props) {
               <div className="font-bold">{topic.title}</div>
               <div className="text-sm">{topic.description}</div>
               <ul>
-                {topic.urls.map((url, idx) => (
-                  <li key={`${url.url}-${idx}`}>
+                {topic.sources.map((source, idx) => (
+                  <li key={`${source.url}-${idx}`}>
                     <Button asChild variant="link">
                       <a
-                        href={url.url}
+                        href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm"
                       >
                         <ArrowRight className="mr-2 h-4 w-4" />
-                        {url.name}
+                        {source.name}
                       </a>
                     </Button>
                   </li>
