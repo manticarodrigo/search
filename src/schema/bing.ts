@@ -57,9 +57,6 @@ export const NewsArticleResponseSchema = z.object({
 })
 
 export const SuggestionsResponseSchema = z.object({
-  queryContext: z.object({
-    originalQuery: z.string(),
-  }),
   suggestionGroups: z
     .object({
       name: z.string(),
@@ -76,10 +73,6 @@ export const SuggestionsResponseSchema = z.object({
 })
 
 export const EntitiesResponseSchema = z.object({
-  queryContext: z.object({
-    originalQuery: z.string(),
-    askUserForLocation: z.boolean().optional(),
-  }),
   entities: z
     .object({
       value: z.array(
