@@ -38,7 +38,7 @@ export async function summarize(
   query: string,
   results: z.infer<typeof SearchResponseSchema>
 ) {
-  const payload = {
+  const payload = JSON.stringify({
     query,
     results: {
       web: results.web?.results.map((result) => ({
@@ -53,11 +53,13 @@ export async function summarize(
         description: result.description,
       })),
     },
-  }
+  })
 
   const prompt = `
-    Summarize the relevance of the provided search query and results.
-    ${JSON.stringify(payload)}
+    Summarize the relevance of the provided search query and results:
+    ${payload}
+
+    Set the result to the out function
   `
 
   const response = await openai.chat.completions
