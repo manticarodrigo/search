@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { search } from "@/lib/brave"
@@ -109,9 +108,16 @@ export default async function SearchPage({ params }: Props) {
           <ul className="flex flex-col gap-4">
             {results.web?.results.map((page) => (
               <li key={page.url}>
-                <Link href={page.url} className="text-base font-bold">
-                  {page.title}
-                </Link>
+                <Button variant="link" asChild>
+                  <a
+                    href={page.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-bold"
+                  >
+                    {page.title}
+                  </a>
+                </Button>
                 <p className="text-xs italic">{page.age}</p>
                 <p className="text-sm text-muted-foreground">
                   {page.description}
