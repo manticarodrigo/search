@@ -58,7 +58,7 @@ export function ScrollShadow({
       >
         <div
           ref={shadowTopRef}
-          className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12 -translate-x-1/2"
+          className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12 -translate-x-1/2 opacity-0"
           style={{
             background: `${radialGradientStyle} 0% 50%, transparent 100%`,
           }}
@@ -84,7 +84,7 @@ export function ScrollShadow({
     >
       <div
         ref={shadowTopRef}
-        className="pointer-events-none absolute left-0 top-0 z-10 h-12 w-full -translate-y-1/2"
+        className="pointer-events-none absolute left-0 top-0 z-10 h-12 w-full -translate-y-1/2 opacity-0"
         style={{
           background: `${radialGradientStyle} 50% 0%, transparent 100%`,
         }}

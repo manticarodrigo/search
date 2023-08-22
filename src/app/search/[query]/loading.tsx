@@ -6,7 +6,7 @@ export default function SearchPageLoader() {
     <section className="container space-y-4 py-12">
       <h2 className="text-2xl font-bold">Brief</h2>
       <div className="flex flex-col gap-6 md:flex-row md:items-center">
-        <Card className="flex w-96 flex-col gap-4">
+        <Card className="flex w-full flex-col gap-4 sm:w-96">
           <CardHeader className="flex flex-col gap-2">
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-4 w-1/4" />
