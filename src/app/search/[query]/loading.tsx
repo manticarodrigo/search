@@ -1,28 +1,30 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function SearchPageLoader() {
   return (
-    <section className="container space-y-4 py-6">
+    <section className="container space-y-4 py-12">
       <h2 className="text-2xl font-bold">Brief</h2>
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, idx) => (
-          <li key={idx}>
-            <Card className="flex flex-col">
-              <CardHeader>
-                <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-4 w-1/4" />
-              </CardHeader>
-              <CardContent className="h-full min-h-[200px]">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center">
+        <Card className="flex w-96 flex-col gap-4">
+          <CardHeader className="flex flex-col gap-2">
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-4 w-1/4" />
+          </CardHeader>
+          <CardContent className="h-full min-h-0">
+            <Skeleton className="h-4 w-3/4" />
+          </CardContent>
+        </Card>
+        <div className="">
+          <ul className="flex flex-wrap gap-4">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <li key={idx}>
                 <Skeleton className="h-4 w-3/4" />
-              </CardContent>
-              <CardFooter>
-                <Skeleton className="ml-auto h-4 w-1/4" />
-              </CardFooter>
-            </Card>
-          </li>
-        ))}
-      </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   )
 }
