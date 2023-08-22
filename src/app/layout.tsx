@@ -15,7 +15,8 @@ export const runtime = "edge"
 
 export const metadata: Metadata = {
   title: "Synopsis",
-  description: "Smart news search engine",
+  description:
+    "Synopsis is an AI-powered search aggregator empowering intelligent discovery.",
 }
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
