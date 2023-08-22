@@ -10,7 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   return {
-    title: `Synopsis Search - ${params.query}`,
+    title: `Synopsis Search - ${decodeURIComponent(params.query)}`,
   }
 }
 
