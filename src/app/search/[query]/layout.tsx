@@ -2,16 +2,13 @@ import { Header } from "@/components/nav/header"
 import { SearchDialog } from "@/components/search-dialog"
 
 type Props = {
+  params: Record<string, string>
   children: React.ReactNode
   news: React.ReactNode
   web: React.ReactNode
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Record<string, string>
-}) {
+export async function generateMetadata({ params }: Props) {
   return {
     title: `Synopsis Search - ${params.query}`,
   }
