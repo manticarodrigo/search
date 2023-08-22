@@ -36,7 +36,7 @@ export function SearchDialog() {
         <Button
           ref={buttonRef}
           variant="outline"
-          className="min-w-0 grow justify-start overflow-hidden px-3 sm:w-96"
+          className="min-w-0 grow justify-start overflow-hidden px-3 sm:w-96 sm:grow-0"
         >
           <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
           <div className="min-w-0 truncate">{query}</div>
