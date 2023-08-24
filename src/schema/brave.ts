@@ -79,3 +79,15 @@ export const SearchResponseSchema = z.object({
     })
     .optional(),
 })
+
+export const SuggestResponseSchema = z.object({
+  type: z.string(),
+  query: z.object({
+    original: z.string(),
+  }),
+  results: z.array(
+    z.object({
+      query: z.string(),
+    })
+  ),
+})

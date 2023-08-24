@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { AlertTriangle } from "lucide-react"
 import { useDebounce } from "use-debounce"
 
 import { trpc } from "@/lib/trpc"
@@ -30,12 +31,9 @@ export function SearchForm(props: Props) {
     keepPreviousData: true,
   })
 
-  const items =
-    suggestions.data?.suggestionGroups.flatMap((group) =>
-      group.searchSuggestions.map((suggestion) => suggestion.displayText)
-    ) ?? []
-
-  const options = Array.from(new Set([search.trim(), ...items].filter(Boolean)))
+  const options = Array.from(
+    new Set([search.trim(), ...(suggestions.data ?? [])].filter(Boolean))
+  )
 
   const isPending = term !== search || suggestions.isLoading
 
@@ -59,7 +57,10 @@ export function SearchForm(props: Props) {
               <Skeleton className="h-4 w-48" />
             </div>
           ) : (
-            <div className="p-2">No results found.</div>
+            <div className="flex h-[250px] flex-col items-center justify-center gap-4">
+              <AlertTriangle />
+              <span className="text-lg font-medium">No results found.</span>
+            </div>
           )}
         </CommandEmpty>
         <CommandGroup>

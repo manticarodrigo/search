@@ -1,11 +1,12 @@
 import { z } from "zod"
 
-import { fetchSuggestions } from "@/lib/bing"
+import { suggest } from "@/lib/brave"
 
 import { createRouter, protectedProcedure } from "../trpc"
 
 export const router = createRouter({
   suggest: protectedProcedure.input(z.string()).query(async ({ input }) => {
-    return fetchSuggestions(input)
+    const suggestions = await suggest(input)
+    return suggestions.results.map((suggestion) => suggestion.query)
   }),
 })

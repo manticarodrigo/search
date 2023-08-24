@@ -1,4 +1,4 @@
-import { SearchResponseSchema } from "@/schema/brave"
+import { SearchResponseSchema, SuggestResponseSchema } from "@/schema/brave"
 
 export async function search(query: string) {
   const response = await fetch(
@@ -17,7 +17,7 @@ export async function search(query: string) {
 
 export async function suggest(query: string) {
   const response = await fetch(
-    `https://api.search.brave.com/res/v1/suggest/search?q=${query}`,
+    `https://api.search.brave.com/res/v1/suggest/search?q=${query}&count=20`,
     {
       headers: {
         Accept: "application/json",
@@ -27,5 +27,5 @@ export async function suggest(query: string) {
     }
   )
   const json = await response.json()
-  return json
+  return SuggestResponseSchema.parse(json)
 }

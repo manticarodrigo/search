@@ -16,7 +16,7 @@ export default async function RootPage() {
           <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]">
             Get smart on any topic.
           </h1>
-          <Balancer className="max-w-2xl text-center text-lg text-muted-foreground sm:text-xl">
+          <Balancer className="mx-auto max-w-2xl text-center text-lg text-muted-foreground sm:text-xl">
             Synopsis is an AI-powered search aggregator empowering intelligent
             discovery.
           </Balancer>
