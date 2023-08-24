@@ -27,7 +27,8 @@ export function SearchForm(props: Props) {
 
   const [search, setSearch] = useState(props.initialQuery ?? "")
   const [term] = useDebounce(search, 500)
-  const suggestions = trpc.autosuggest.suggest.useQuery(term, {
+
+  const suggestions = trpc.suggestions.useQuery(term, {
     keepPreviousData: true,
   })
 

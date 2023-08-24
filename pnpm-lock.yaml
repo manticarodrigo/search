@@ -83,6 +83,9 @@ dependencies:
   eslint-plugin-tailwindcss:
     specifier: ^3.13.0
     version: 3.13.0(tailwindcss@3.3.3)
+  google-trends-api:
+    specifier: ^4.9.2
+    version: 4.9.2
   langchain:
     specifier: ^0.0.131
     version: 0.0.131
@@ -3571,6 +3574,10 @@ packages:
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 3.0.0
+    dev: false
+
+  /google-trends-api@4.9.2:
+    resolution: {integrity: sha512-gjVSHCM8B7LyAAUpXb4B0/TfnmpwQ2z1w/mQ2bL0AKpr2j3gLS1j2YOnifpfsGJRxAGXB/NoC+nGwC5qSnZIiA==}
     dev: false
 
   /gopd@1.0.1:

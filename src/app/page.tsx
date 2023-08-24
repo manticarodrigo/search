@@ -1,13 +1,10 @@
 import Balancer from "react-wrap-balancer"
 
-import { fetchTopics } from "@/lib/bing"
-import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/nav/header"
 import { SearchForm } from "@/components/search"
+import { Trends } from "@/components/trends"
 
-export default async function RootPage() {
-  const topics = await fetchTopics()
-
+export default function RootPage() {
   return (
     <main className="flex min-h-full flex-col">
       <Header />
@@ -24,15 +21,7 @@ export default async function RootPage() {
         <div className="w-full max-w-2xl rounded-lg border shadow-md">
           <SearchForm />
         </div>
-        {topics.value && (
-          <ul className="flex flex-wrap justify-center gap-2 px-4">
-            {topics.value?.map((topic, idx) => (
-              <Badge variant="secondary" key={`${topic.name}-${idx}`}>
-                {topic.name}
-              </Badge>
-            ))}
-          </ul>
-        )}
+        <Trends />
       </section>
     </main>
   )
