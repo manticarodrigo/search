@@ -1,10 +1,8 @@
-import { search } from "@/lib/brave"
-import { SearchSummary } from "./summary"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-
 import { ArrowRight } from "lucide-react"
 
+import { search } from "@/lib/brave"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -14,6 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { ScrollShadow } from "@/components/ui/scroll-shadow"
+
+import { SearchSummary } from "./summary"
 
 type Props = {
   params: Record<string, string>

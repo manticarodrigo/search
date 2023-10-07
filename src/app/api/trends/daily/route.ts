@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { dailyTrends } from "google-trends-api"
+
 import { DailyTrendResponseSchema } from "@/schema/trends"
 
 export async function fetchDailyTrends() {

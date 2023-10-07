@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { realTimeTrends } from "google-trends-api"
+
 import { RealtimeTrendResponseSchema } from "@/schema/trends"
 
 export async function fetchRealtimeTrends() {

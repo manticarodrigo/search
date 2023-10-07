@@ -1,9 +1,9 @@
 import Balancer from "react-wrap-balancer"
 
+import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/nav/header"
 import { SearchForm } from "@/components/search"
 
-import { Badge } from "@/components/ui/badge"
 import { fetchDailyTrends } from "./api/trends/daily/route"
 
 export default async function RootPage() {

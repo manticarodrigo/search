@@ -1,12 +1,13 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react"
+import { useCompletion } from "ai/react"
 import { z } from "zod"
 
 import { SearchResponseSchema } from "@/schema/brave"
-import { useCompletion } from "ai/react"
 import { useEffectOnce } from "@/hooks/use-effect-once"
-import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
 interface Props {
   results: z.infer<typeof SearchResponseSchema>
 }

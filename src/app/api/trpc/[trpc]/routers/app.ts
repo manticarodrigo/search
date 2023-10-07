@@ -1,9 +1,9 @@
 import { z } from "zod"
 
 import { suggest } from "@/lib/brave"
+import { fetchRealtimeTrends } from "@/app/api/trends/realtime/route"
 
 import { createRouter, protectedProcedure } from "../trpc"
-import { fetchRealtimeTrends } from "@/app/api/trends/realtime/route"
 
 export const appRouter = createRouter({
   suggestions: protectedProcedure.input(z.string()).query(async ({ input }) => {
