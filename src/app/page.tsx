@@ -1,10 +1,24 @@
+import { dailyTrends } from "google-trends-api"
 import Balancer from "react-wrap-balancer"
 
+import { DailyTrendResponseSchema } from "@/schema/trends"
 import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/nav/header"
 import { SearchForm } from "@/components/search"
 
-import { fetchDailyTrends } from "./api/trends/daily/route"
+async function fetchDailyTrends() {
+  const trends = await new Promise((resolve, reject) => {
+    dailyTrends({ geo: "US" }, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(JSON.parse(res))
+      }
+    })
+  })
+
+  return DailyTrendResponseSchema.parse(trends)
+}
 
 export default async function RootPage() {
   const result = await fetchDailyTrends()

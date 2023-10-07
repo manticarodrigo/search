@@ -1,9 +1,23 @@
+import { realTimeTrends } from "google-trends-api"
 import { z } from "zod"
 
+import { RealtimeTrendResponseSchema } from "@/schema/trends"
 import { suggest } from "@/lib/brave"
-import { fetchRealtimeTrends } from "@/app/api/trends/realtime/route"
 
 import { createRouter, protectedProcedure } from "../trpc"
+
+async function fetchRealtimeTrends() {
+  const trends = await new Promise((resolve, reject) => {
+    realTimeTrends({ geo: "US" }, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(JSON.parse(res))
+      }
+    })
+  })
+  return RealtimeTrendResponseSchema.parse(trends)
+}
 
 export const appRouter = createRouter({
   suggestions: protectedProcedure.input(z.string()).query(async ({ input }) => {
