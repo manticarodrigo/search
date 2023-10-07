@@ -4,8 +4,6 @@ import { SearchDialog } from "@/components/search-dialog"
 type Props = {
   params: Record<string, string>
   children: React.ReactNode
-  news: React.ReactNode
-  web: React.ReactNode
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -14,15 +12,13 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export default async function SearchPageLayout({ children, news, web }: Props) {
+export default async function SearchPageLayout({ children }: Props) {
   return (
     <main className="flex min-h-full flex-col">
       <Header>
         <SearchDialog />
       </Header>
       {children}
-      {news}
-      {web}
     </main>
   )
 }

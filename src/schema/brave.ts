@@ -27,27 +27,31 @@ const ResultSchema = z.object({
 
 export const SearchResponseSchema = z.object({
   type: z.string(),
-  query: z.object({
-    original: z.string(),
-    show_strict_warning: z.boolean(),
-    is_navigational: z.boolean().optional(),
-    is_news_breaking: z.boolean(),
-    spellcheck_off: z.boolean(),
-    country: z.string(),
-    bad_results: z.boolean(),
-    should_fallback: z.boolean(),
-    postal_code: z.string(),
-    city: z.string(),
-    header_country: z.string(),
-    more_results_available: z.boolean().optional(),
-    state: z.string(),
-  }),
-  mixed: z.object({
-    type: z.string(),
-    main: z.array(ResultReferenceSchema),
-    top: z.array(ResultReferenceSchema),
-    side: z.array(ResultReferenceSchema),
-  }),
+  query: z
+    .object({
+      original: z.string(),
+      show_strict_warning: z.boolean(),
+      is_navigational: z.boolean().optional(),
+      is_news_breaking: z.boolean(),
+      spellcheck_off: z.boolean(),
+      country: z.string(),
+      bad_results: z.boolean(),
+      should_fallback: z.boolean(),
+      postal_code: z.string(),
+      city: z.string(),
+      header_country: z.string(),
+      more_results_available: z.boolean().optional(),
+      state: z.string(),
+    })
+    .optional(),
+  mixed: z
+    .object({
+      type: z.string(),
+      main: z.array(ResultReferenceSchema),
+      top: z.array(ResultReferenceSchema),
+      side: z.array(ResultReferenceSchema),
+    })
+    .optional(),
   news: z
     .object({
       type: z.string(),
