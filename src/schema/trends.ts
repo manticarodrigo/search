@@ -38,10 +38,43 @@ const TrendingSearchesDaySchema = z.object({
   trendingSearches: z.array(TrendingSearchSchema),
 })
 
-export const TrendResponseSchema = z.object({
+export const DailyTrendResponseSchema = z.object({
   default: z.object({
     trendingSearchesDays: z.array(TrendingSearchesDaySchema),
     endDateForNextRequest: z.string(),
     rssFeedPageUrl: z.string(),
+  }),
+})
+
+const StoryArticleSchema = z.object({
+  articleTitle: z.string(),
+  url: z.string(),
+  source: z.string(),
+  time: z.string(),
+  snippet: z.string(),
+})
+
+const StoryImageSchema = z.object({
+  newsUrl: z.string(),
+  source: z.string(),
+  imgUrl: z.string(),
+})
+
+const StoryDetailsSchema = z.object({
+  image: StoryImageSchema,
+  shareUrl: z.string(),
+  articles: z.array(StoryArticleSchema),
+  idsForDedup: z.array(z.string()),
+  id: z.string(),
+  title: z.string(),
+  entityNames: z.array(z.string()),
+})
+
+export const RealtimeTrendResponseSchema = z.object({
+  featuredStoryIds: z.array(z.string()),
+  trendingStoryIds: z.array(z.string()),
+  storySummaries: z.object({
+    featuredStories: z.array(z.any()),
+    trendingStories: z.array(StoryDetailsSchema),
   }),
 })

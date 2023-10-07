@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from "react"
 
-import { TrendResponseSchema } from "@/schema/trends"
+import { DailyTrendResponseSchema } from "@/schema/trends"
 import { Badge } from "@/components/ui/badge"
 
 export function Trends() {
   const [topics, setTopics] = useState<null | { name: string }[]>(null)
 
   useEffect(() => {
-    fetch("/api/trends")
+    fetch("/api/trends/daily")
       .then(async (res) => {
         const body = await res.json()
-        const parsed = TrendResponseSchema.parse(body)
+        const parsed = DailyTrendResponseSchema.parse(body)
         setTopics(
           parsed.default.trendingSearchesDays.flatMap((day) =>
             day.trendingSearches.map((trend) => ({
@@ -22,7 +22,7 @@ export function Trends() {
         )
       })
       .catch((err) => {
-        console.log(err)
+        console.error("trends err", err)
       })
   }, [])
 
