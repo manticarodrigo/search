@@ -13,7 +13,7 @@ export const appRouter = createRouter({
     } else {
       const suggestions = await fetchRealtimeTrends()
       return suggestions.storySummaries.trendingStories.flatMap((story) =>
-        story.entityNames.flatMap((entity) => entity)
+        story.entityNames.map((entity) => entity)
       )
     }
   }),

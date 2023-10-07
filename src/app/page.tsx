@@ -2,9 +2,19 @@ import Balancer from "react-wrap-balancer"
 
 import { Header } from "@/components/nav/header"
 import { SearchForm } from "@/components/search"
-import { Trends } from "@/components/trends"
 
-export default function RootPage() {
+import { Badge } from "@/components/ui/badge"
+import { fetchDailyTrends } from "./api/trends/daily/route"
+
+export default async function RootPage() {
+  const result = await fetchDailyTrends()
+
+  const trends = result.default.trendingSearchesDays.flatMap((day) =>
+    day.trendingSearches.map((trend) => ({
+      name: trend.title.query,
+    }))
+  )
+
   return (
     <main className="flex min-h-full flex-col">
       <Header />
@@ -21,7 +31,15 @@ export default function RootPage() {
         <div className="w-full max-w-2xl rounded-lg border shadow-md">
           <SearchForm />
         </div>
-        <Trends />
+        {trends && (
+          <ul className="flex flex-wrap justify-center gap-2 px-4">
+            {trends.map((trend, idx) => (
+              <Badge variant="secondary" key={`${trend.name}-${idx}`}>
+                {trend.name}
+              </Badge>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   )
