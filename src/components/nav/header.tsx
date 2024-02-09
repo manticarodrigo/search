@@ -12,10 +12,10 @@ export function Header({ children }: React.PropsWithChildren) {
       <div className="container flex w-full items-center justify-between gap-2 p-2">
         <Link href="/" className="hidden items-center gap-1 sm:flex">
           <Image src="/logo.svg" alt="logo" width={20} height={20} />
-          <span className="font-mono font-bold">Synopsis</span>
+          <span className="font-mono font-bold">Search</span>
         </Link>
         <Button asChild variant="outline" className="sm:hidden" size="icon">
-          <Link href="/" aria-label="Synopsis">
+          <Link href="/" aria-label="Search">
             <Image src="/logo.svg" alt="logo" width={20} height={20} />
           </Link>
         </Button>

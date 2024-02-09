@@ -13,8 +13,7 @@ export default function RootLoader() {
             Get smart on any topic.
           </h1>
           <Balancer className="max-w-2xl text-center text-lg text-muted-foreground sm:text-xl">
-            Synopsis is an AI-powered search aggregator empowering intelligent
-            discovery.
+            AI-powered search aggregator empowering intelligent discovery.
           </Balancer>
         </div>
         <div className="w-full max-w-2xl rounded-lg border shadow-md">

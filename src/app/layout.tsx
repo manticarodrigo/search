@@ -12,9 +12,9 @@ import { Providers } from "@/components/providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Synopsis",
+  title: "Search",
   description:
-    "Synopsis is an AI-powered search aggregator empowering intelligent discovery.",
+    "An AI-powered search aggregator empowering intelligent discovery.",
 }
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
